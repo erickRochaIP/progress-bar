@@ -3,6 +3,16 @@ import time
 
 import sys,time
 
+def track_progress(func):
+    def wrapper(**k):
+        itP(func, k,
+        {
+        'display': True,
+        'label': lambda x: str(x)
+        }
+        )
+    return wrapper
+
 def progress_bar(acc, tot, opt, conc):
     if not opt or 'display' not in opt or not opt['display']:
         return
@@ -67,13 +77,22 @@ def itP(f, a: dict[str, list], opt=None) -> None:
 def printer(a, b, c):
     time.sleep(1)
     
-itP(printer, {
-    'a': [1, 2],
-    'b': ['a', 'b'],
-    'c':['chess', 'pawn']
-    },
-    {
-        'display': True,
-        'label': lambda x: str(x)
-    }
+# itP(printer, {
+#     'a': [1, 2],
+#     'b': ['a', 'b'],
+#     'c':['chess', 'pawn']
+#     },
+#     {
+#         'display': True,
+#         'label': lambda x: str(x)
+#     }
+# )
+
+@track_progress
+def wait(a, b):
+    time.sleep(a+b)
+
+wait(
+    a=[1, 2, 3],
+    b=[0.5, 1.5]
 )
